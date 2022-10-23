@@ -12,9 +12,9 @@ import at.ac.fhcampuswien.bookapplication.ui.theme.AppColors
 import at.ac.fhcampuswien.bookapplication.widgets.AppBar
 
 @Composable
-fun BookScreen(navHostController: NavHostController) {
+fun NewBookScreen(navHostController: NavHostController) {
     Scaffold(
-        topBar = { AppBar(title = AppScreen.Favorite.title) }
+        topBar = { AppBar(title = AppScreen.NewBook.title) }
     ) {
         Button(onClick = {}) {
             Text(text = "See friends list", color = AppColors.Purple200)
@@ -24,6 +24,6 @@ fun BookScreen(navHostController: NavHostController) {
 
 @Preview
 @Composable
-fun BookScreenPreview() {
-    BookScreen(NavHostController(context = LocalContext.current))
+fun NewBookScreenPreview() {
+    NewBookScreen(NavHostController(context = LocalContext.current))
 }

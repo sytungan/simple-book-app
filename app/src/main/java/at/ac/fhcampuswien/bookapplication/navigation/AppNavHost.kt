@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import at.ac.fhcampuswien.bookapplication.ui.book.BookScreen
+import at.ac.fhcampuswien.bookapplication.ui.book.NewBookScreen
 import at.ac.fhcampuswien.bookapplication.ui.favoriate.FavoriteScreen
 
 @Composable
@@ -23,7 +23,7 @@ fun AppNavHost(
             FavoriteScreen(navController = navController)
         }
         composable(route = AppRoute.newBook) {
-            BookScreen(navHostController = navController)
+            NewBookScreen(navHostController = navController)
         }
     }
 }
