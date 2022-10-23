@@ -7,6 +7,7 @@ import at.ac.fhcampuswien.bookapplication.ui.theme.MovieApplicationLectureTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        Graph.provide(this)
         super.onCreate(savedInstanceState)
         setContent {
             MovieApplicationLectureTheme {
