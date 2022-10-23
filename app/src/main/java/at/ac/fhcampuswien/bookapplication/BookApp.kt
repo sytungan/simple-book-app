@@ -8,7 +8,6 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import at.ac.fhcampuswien.bookapplication.navigation.AppNavHost
 import at.ac.fhcampuswien.bookapplication.widgets.AppBottomNavigationBar
@@ -20,8 +19,6 @@ fun BookApp() {
         color = MaterialTheme.colors.background
     ) {
         val navController = rememberNavController()
-        val currentBackStack by navController.currentBackStackEntryAsState()
-        val currentDestination = currentBackStack?.destination
         var bottomIndex by remember { mutableStateOf(0) }
         Scaffold(
             bottomBar = {

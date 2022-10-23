@@ -6,14 +6,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.withTransaction
-import at.ac.fhcampuswien.bookapplication.Graph
+import at.ac.fhcampuswien.bookapplication.AppSingletons
 import at.ac.fhcampuswien.bookapplication.data.database.AppDatabase
 import at.ac.fhcampuswien.bookapplication.models.Book
 import at.ac.fhcampuswien.bookapplication.ui.book.NewBookState
 import kotlinx.coroutines.launch
 
 class NewBookViewModel(
-    private val db : AppDatabase = Graph.database
+    private val db : AppDatabase = AppSingletons.database
 ) : ViewModel() {
     var uiState by mutableStateOf(NewBookState())
         private set
@@ -34,9 +34,9 @@ class NewBookViewModel(
     }
 
     // TODO: Create some functions to validate the logic, they are:
-    /*
-    - Name can not be empty
-    - Author: must not be empty
-    - First publication date: must be a valid year and cannot be in the future
+    /**
+    * - Name can not be empty
+    * - Author: must not be empty
+    * - First publication date: must be a valid year and cannot be in the future
     */
 }

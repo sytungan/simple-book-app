@@ -6,14 +6,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.withTransaction
-import at.ac.fhcampuswien.bookapplication.Graph
+import at.ac.fhcampuswien.bookapplication.AppSingletons
 import at.ac.fhcampuswien.bookapplication.data.database.AppDatabase
 import at.ac.fhcampuswien.bookapplication.models.Book
 import at.ac.fhcampuswien.bookapplication.ui.favoriate.FavoriteState
 import kotlinx.coroutines.launch
 
 class FavoriteViewModel(
-    private val db : AppDatabase = Graph.database
+    private val db : AppDatabase = AppSingletons.database
 ) : ViewModel() {
     var uiState by mutableStateOf(FavoriteState())
         private set

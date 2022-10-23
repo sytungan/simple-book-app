@@ -9,6 +9,8 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material.icons.sharp.Delete
 import androidx.compose.material.icons.sharp.Done
+import androidx.compose.material.icons.sharp.MailOutline
+import androidx.compose.material.icons.sharp.Phone
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
@@ -48,7 +50,7 @@ fun BookItem(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(all = 8.dp),
             ) {
-                Icon(Icons.Sharp.Done, contentDescription = "Localized description")
+                Icon(Icons.Sharp.MailOutline, contentDescription = "Localized description")
                 Spacer(modifier = Modifier.width(10.dp))
                 Column() {
                     Text(text = name, style = AppTypography.h5)
