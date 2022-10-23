@@ -1,10 +1,10 @@
-package at.ac.fhcampuswien.movieapplication.ui.book
+package at.ac.fhcampuswien.bookapplication.ui.book
 
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import at.ac.fhcampuswien.movieapplication.ui.theme.AppColors
+import at.ac.fhcampuswien.bookapplication.ui.theme.AppColors
 
 @Composable
 fun BookScreen(navHostController: NavHostController) {

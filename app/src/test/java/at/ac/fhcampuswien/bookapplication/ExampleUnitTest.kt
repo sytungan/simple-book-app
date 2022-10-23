@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.movieapplication
+package at.ac.fhcampuswien.bookapplication
 
 import org.junit.Test
 

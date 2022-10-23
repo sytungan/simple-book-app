@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.movieapplication.ui.theme
+package at.ac.fhcampuswien.bookapplication.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

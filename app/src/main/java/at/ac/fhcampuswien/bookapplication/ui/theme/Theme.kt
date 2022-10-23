@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.movieapplication.ui.theme
+package at.ac.fhcampuswien.bookapplication.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -40,7 +40,7 @@ fun MovieApplicationLectureTheme(
 
     MaterialTheme(
         colors = colors,
-        typography = Typography,
+        typography = AppTypography,
         shapes = Shapes,
         content = content
     )

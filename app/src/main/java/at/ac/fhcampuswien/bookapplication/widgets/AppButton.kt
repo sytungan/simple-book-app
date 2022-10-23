@@ -1,10 +1,10 @@
-package at.ac.fhcampuswien.movieapplication.widgets
+package at.ac.fhcampuswien.bookapplication.widgets
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import at.ac.fhcampuswien.movieapplication.ui.theme.AppColors
-import at.ac.fhcampuswien.movieapplication.ui.theme.MovieApplicationLectureTheme
+import at.ac.fhcampuswien.bookapplication.ui.theme.AppColors
+import at.ac.fhcampuswien.bookapplication.ui.theme.MovieApplicationLectureTheme
 
 @Composable
 fun AppButton(
@@ -23,8 +23,8 @@ fun AppButton(
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun AppButtonPreview() {
     MovieApplicationLectureTheme {
-        AppButton(title = "Con cac")
+        AppButton(title = "Some thing")
     }
 }

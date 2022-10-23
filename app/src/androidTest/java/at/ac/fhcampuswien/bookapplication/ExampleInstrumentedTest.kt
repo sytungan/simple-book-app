@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.movieapplication
+package at.ac.fhcampuswien.bookapplication
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
