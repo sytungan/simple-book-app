@@ -28,7 +28,7 @@ fun NewBookScreen(navHostController: NavHostController, viewModel: NewBookViewMo
                 iBSN = "XXXXX"
             ))
         }) {
-            Text(text = "See friends list", color = AppColors.Purple200)
+            Text(text = "Create a Book", color = AppColors.Purple200)
         }
     }
 }
