@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.bookapplication.viewmodels
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,14 +10,32 @@ import androidx.room.withTransaction
 import at.ac.fhcampuswien.bookapplication.AppSingletons
 import at.ac.fhcampuswien.bookapplication.data.database.AppDatabase
 import at.ac.fhcampuswien.bookapplication.models.Book
+import at.ac.fhcampuswien.bookapplication.ui.book.NewBookEvent
 import at.ac.fhcampuswien.bookapplication.ui.book.NewBookState
+import at.ac.fhcampuswien.bookapplication.ui.book.TextFieldState
 import kotlinx.coroutines.launch
 
 class NewBookViewModel(
-    private val db : AppDatabase = AppSingletons.database
+    private val db: AppDatabase = AppSingletons.database
 ) : ViewModel() {
     var uiState by mutableStateOf(NewBookState())
         private set
+
+    private val _bookName = mutableStateOf(TextFieldState())
+    val bookName: State<TextFieldState>
+        get() = _bookName
+
+    fun emitEvent(event: NewBookEvent) {
+        when (event) {
+            is NewBookEvent.EnteredBookName -> {
+                _bookName.value = _bookName.value.copy(text = event.bookName)
+            }
+        }
+    }
+
+    fun validateISBN(){
+        _bookName.value = _bookName.value.copy(error = true);
+    }
 
     fun addBookToDB(book: Book) {
         uiState = uiState.copy(
@@ -35,8 +54,8 @@ class NewBookViewModel(
 
     // TODO: Create some functions to validate the logic, they are:
     /**
-    * - Name can not be empty
-    * - Author: must not be empty
-    * - First publication date: must be a valid year and cannot be in the future
-    */
+     * - Name can not be empty
+     * - Author: must not be empty
+     * - First publication date: must be a valid year and cannot be in the future
+     */
 }
