@@ -41,7 +41,7 @@ fun NewBookScreen(navHostController: NavHostController, viewModel: NewBookViewMo
                     onValueChange = { text -> viewModel.emitEvent(NewBookEvent.EnteredBookName(text)) },
                     label = "Name",
                     hint = "Name",
-                    isError = false,
+                    isError = isError,
                     error = error,
                 )
             }
