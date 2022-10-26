@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.bookapplication.ui.book
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -22,23 +24,46 @@ import at.ac.fhcampuswien.bookapplication.widgets.AppBar
 import androidx.lifecycle.viewmodel.compose.*
 import at.ac.fhcampuswien.bookapplication.models.Book
 import at.ac.fhcampuswien.bookapplication.utils.DateTimeUtils
+import at.ac.fhcampuswien.bookapplication.widgets.CustomOutlineTextField
 
 @Composable
 fun NewBookScreen(navHostController: NavHostController, viewModel: NewBookViewModel = viewModel()) {
-    val bookName by remember { viewModel.bookName }
     Scaffold(
         topBar = { AppBar(title = AppScreen.NewBook.title) }
     ) {
-        Column() {
-            CustomOutlineTextField(
-                text = "",
-                onValueChange = { text -> viewModel.emitEvent(NewBookEvent.EnteredBookName(text)) },
-                label = { Text(text = "Name")},
-                textStyle = TextStyle(color = Color.Blue),
-                modifier = Modifier.padding(20.dp),
-                isError = bookName.error
-            ) {
-                viewModel.validate()
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            viewModel.nameState.value.run {
+                CustomOutlineTextField(
+                    text = text,
+                    onValueChange = { text -> viewModel.emitEvent(NewBookEvent.EnteredBookName(text)) },
+                    label = "Name",
+                    hint = "Name",
+                    isError = false,
+                    error = error,
+                )
+            }
+            viewModel.authorState.value.run {
+                CustomOutlineTextField(
+                    text = text,
+                    onValueChange = { text -> viewModel.emitEvent(NewBookEvent.EnteredAuthor(text)) },
+                    label = "Author",
+                    hint = "Author",
+                    isError = isError,
+                    error = error,
+                )
+            }
+            viewModel.iBSNState.value.run {
+                CustomOutlineTextField(
+                    text = text,
+                    onValueChange = { text -> viewModel.emitEvent(NewBookEvent.EnteredISBN(text)) },
+                    label = "ISBN",
+                    hint = "ISBN",
+                    isError = isError,
+                    error = error,
+                )
             }
             Button(onClick = {
                 viewModel.addBookToDB(
@@ -61,36 +86,4 @@ fun NewBookScreen(navHostController: NavHostController, viewModel: NewBookViewMo
 @Composable
 fun NewBookScreenPreview() {
     NewBookScreen(NavHostController(context = LocalContext.current))
-}
-
-@Composable
-fun CustomOutlineTextField(
-    text:String,
-    onValueChange: (String) -> Unit,
-    label: @Composable() (()-> Unit),
-    textStyle: TextStyle,
-    modifier: Modifier,
-    isError: Boolean,
-    keyboardActions: (() -> Unit)?
-){
-    Column() {
-        OutlinedTextField(
-            value = text,
-            onValueChange = onValueChange,
-            label = label,
-            textStyle = textStyle,
-            modifier = modifier,
-            isError = isError,
-            singleLine = true,
-            keyboardActions =  KeyboardActions({keyboardActions?.invoke()}),
-        )
-        if (isError== true){
-            Text(
-                text = "Error message",
-                color = MaterialTheme.colors.error,
-                style = MaterialTheme.typography.h6,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
-    }
 }

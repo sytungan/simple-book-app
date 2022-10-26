@@ -21,20 +21,37 @@ class NewBookViewModel(
     var uiState by mutableStateOf(NewBookState())
         private set
 
-    private val _bookName = mutableStateOf(TextFieldState())
-    val bookName: State<TextFieldState>
-        get() = _bookName
+    val nameState = mutableStateOf(TextFieldState())
+    val authorState = mutableStateOf(TextFieldState())
+    val dateState = mutableStateOf(TextFieldState())
+    val iBSNState = mutableStateOf(TextFieldState())
 
     fun emitEvent(event: NewBookEvent) {
         when (event) {
             is NewBookEvent.EnteredBookName -> {
-                _bookName.value = _bookName.value.copy(text = event.bookName)
+                nameState.value = nameState.value.copy(text = event.name)
+            }
+            is NewBookEvent.EnteredAuthor -> {
+                authorState.value = authorState.value.copy(text = event.author)
+            }
+            is NewBookEvent.EnteredDate -> {
+                nameState.value = dateState.value.copy(text = event.date.toString())
+            }
+            is NewBookEvent.EnteredISBN -> {
+                iBSNState.value = iBSNState.value.copy(text = event.iSBN)
             }
         }
     }
 
-    fun validateISBN(){
-        _bookName.value = _bookName.value.copy(error = true);
+    fun validateISBN() {
+        val bookName = nameState.value.text
+        val iSBNPattern = """(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?\$)""".toRegex()
+        if (bookName.isNotEmpty() && iSBNPattern.matches(bookName)) {
+            nameState.value = nameState.value.copy(isError = false);
+        }
+        else {
+            nameState.value = nameState.value.copy(isError = true);
+        }
     }
 
     fun addBookToDB(book: Book) {

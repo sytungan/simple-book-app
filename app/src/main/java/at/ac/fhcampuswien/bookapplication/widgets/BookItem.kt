@@ -36,7 +36,7 @@ fun BookItem(
     Surface(
         color = Color.White,
         modifier = Modifier
-            .clip(RoundedCornerShape(8.dp, 8.dp, 8.dp, 8.dp))
+            .clip(RoundedCornerShape(8.dp))
             .fillMaxWidth()
             .clickable {
                 onClick.invoke()

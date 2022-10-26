@@ -35,4 +35,8 @@ object DateTimeUtils {
     fun currentTimeStamp() : Long {
         return Instant.now().epochSecond
     }
+
+    fun dateToTimeStamp(date: Date) : Long {
+        return 0
+    }
 }
