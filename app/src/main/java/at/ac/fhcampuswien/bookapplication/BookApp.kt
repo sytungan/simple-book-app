@@ -33,7 +33,7 @@ fun BookApp() {
                                 }
                             }
                             launchSingleTop = true
-                            restoreState = true
+                            restoreState = false
                         }
                     }
                 )

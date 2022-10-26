@@ -17,7 +17,8 @@ import java.util.regex.Pattern
 object DateTimeUtils {
     private const val shortDateFormat = "yyyy-MM-dd"
 
-    fun formatDate(date: Date) : String {
+    fun formatDate(date: Date?) : String {
+        if (date == null) return ""
         return SimpleDateFormat(shortDateFormat).format(date)
     }
 

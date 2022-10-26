@@ -25,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.*
 import at.ac.fhcampuswien.bookapplication.models.Book
 import at.ac.fhcampuswien.bookapplication.utils.DateTimeUtils
 import at.ac.fhcampuswien.bookapplication.widgets.CustomOutlineTextField
+import at.ac.fhcampuswien.bookapplication.widgets.DateTimeTextField
 
 @Composable
 fun NewBookScreen(navHostController: NavHostController, viewModel: NewBookViewModel = viewModel()) {
@@ -55,6 +56,17 @@ fun NewBookScreen(navHostController: NavHostController, viewModel: NewBookViewMo
                     error = error,
                 )
             }
+            viewModel.dateState.value.run {
+                DateTimeTextField(
+                    label = "First publication date",
+                    hint = "Choose the first publication date",
+                    isError = isError,
+                    error = error,
+                    onValueChange = { date ->
+                        viewModel.emitEvent(NewBookEvent.EnteredDate(date))
+                    }
+                )
+            }
             viewModel.iBSNState.value.run {
                 CustomOutlineTextField(
                     text = text,
@@ -66,14 +78,7 @@ fun NewBookScreen(navHostController: NavHostController, viewModel: NewBookViewMo
                 )
             }
             Button(onClick = {
-                viewModel.addBookToDB(
-                    Book(
-                        name = "Book sample",
-                        author = "Khanh Nguyen Dinh",
-                        date = DateTimeUtils.currentTimeStamp().toInt(),
-                        iBSN = "XXXXX"
-                    )
-                )
+                viewModel.emitEvent(NewBookEvent.SubmitBook)
             }) {
                 Text(text = "Create a Book", color = AppColors.Purple200)
             }

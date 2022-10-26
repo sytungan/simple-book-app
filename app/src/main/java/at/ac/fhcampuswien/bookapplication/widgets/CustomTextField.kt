@@ -2,30 +2,26 @@ package at.ac.fhcampuswien.bookapplication.widgets
 
 import android.app.DatePickerDialog
 import android.content.Context
-import android.widget.CalendarView
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import at.ac.fhcampuswien.bookapplication.ui.theme.AppColors
 import at.ac.fhcampuswien.bookapplication.ui.theme.AppTypography
+import at.ac.fhcampuswien.bookapplication.utils.DateTimeUtils
 import java.time.LocalDate
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
+import java.time.ZoneId
 import java.util.*
 
 
@@ -38,6 +34,8 @@ fun CustomOutlineTextField(
     hint: String = "",
     textStyle: TextStyle = AppTypography.body1,
     isError: Boolean = false,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
     trailingIcon: @Composable () -> Unit = {},
     error: String? = null,
     keyboardActions: () -> Unit = {}
@@ -60,6 +58,8 @@ fun CustomOutlineTextField(
             },
             textStyle = textStyle,
             modifier = modifier,
+            enabled = enabled,
+            readOnly = readOnly,
             isError = isError,
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
@@ -69,6 +69,7 @@ fun CustomOutlineTextField(
                 backgroundColor = AppColors.White,
             ),
             shape = RoundedCornerShape(6.dp),
+            trailingIcon = trailingIcon,
             keyboardActions = KeyboardActions { keyboardActions.invoke() },
         )
         if (isError && error != null) {
@@ -83,36 +84,74 @@ fun CustomOutlineTextField(
 
 @Composable
 fun DateTimeTextField(
-    onValueChange: (Date) -> Unit,
+    onValueChange: (Date) -> Unit = {},
     label: String,
     hint: String = "",
+    isError: Boolean = false,
+    error: String? = null,
     textStyle: TextStyle = AppTypography.body1,
 ) {
     val context = LocalContext.current
-    val text by remember { mutableStateOf("") }
+    var date by remember { mutableStateOf<Date?>(null) }
+    val interactionSource = remember { MutableInteractionSource() }
     CustomOutlineTextField(
-        text = "",
+        text = DateTimeUtils.formatDate(date),
         hint = hint,
         label = label,
+        enabled = false,
         textStyle = textStyle,
-        trailingIcon = { Icon(Icons.Default.DateRange, contentDescription = null) },
+        isError = isError,
+        error = error,
+        trailingIcon = {
+            Icon(
+                Icons.Default.DateRange,
+                contentDescription = null,
+                tint = AppColors.GrayC7C7CC
+            )
+        },
         modifier = Modifier
             .padding(8.dp)
-            .clickable {
-                showDatePicker(context = context)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null
+            ) {
+                showDatePicker(context = context,
+                    currentDate = date,
+                    onConfirm = { newDate ->
+                        date = newDate
+                        onValueChange.invoke(newDate)
+                    })
             }
     )
 }
 
-private fun showDatePicker(context: Context) {
+private fun showDatePicker(context: Context, onConfirm: (Date) -> Unit, currentDate: Date? = null) {
+    val calendar = Calendar.getInstance()
+    if (currentDate != null) {
+        calendar.time = currentDate
+    }
+    val currentYear = calendar[Calendar.YEAR]
+    val currentMonth = calendar[Calendar.MONTH]
+    val currentDay = calendar[Calendar.DAY_OF_MONTH]
+    val now = System.currentTimeMillis()
     val dialog = DatePickerDialog(
         context,
-        DatePickerDialog.OnDateSetListener { _, year, month, day ->
-            LocalDate.of(year, month, day)
+        { _, year, month, day ->
+            val localDate = LocalDate.of(year, month, day)
+            val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            onConfirm.invoke(date)
         },
-        2022,
-        12,
-        10,
+        currentYear,
+        currentMonth,
+        currentDay,
     )
+    dialog.datePicker.maxDate = now
+    dialog.show()
+}
 
+
+@Preview
+@Composable
+fun DateTimeTextFieldPreview() {
+    return DateTimeTextField(label = "Date")
 }
