@@ -50,8 +50,13 @@ class NewBookViewModel(
 
     private fun validateISBN13(isbnNum: String, checkDigit: String): String {
         var sum = 0
-        for (i in 0..isbnNum.length - 2) {
-            sum += (i % 2 * 2 + 1) * isbnNum[i].digitToInt()
+        try {
+            for (i in 0..isbnNum.length - 2) {
+                sum += (i % 2 * 2 + 1) * isbnNum[i].digitToInt()
+            }
+        }
+        catch (e: Exception) {
+            return "There is a group have nothing"
         }
         val check = 10 - (sum % 10)
         return if (check == checkDigit.toInt()) "" else "Invalid ISBN check digit"
@@ -77,11 +82,17 @@ class NewBookViewModel(
     }
 
 
-    fun submitBook() {
+    private fun submitBook() {
         val validName = validateName()
         val validAuthor = validateAuthor()
-        val validISBN = validateISBN()
-        val validDate =        validateDate()
+        var validISBN = false
+        try {
+            validISBN = validateISBN()
+        }
+        catch (e: Exception) {
+            iBSNState.value = iBSNState.value.copy(isError = true, error = "Invalid ISBN")
+        }
+        val validDate = validateDate()
         if (  validName && validAuthor && validDate && validISBN
         ) {
             addBookToDB(
@@ -101,7 +112,7 @@ class NewBookViewModel(
             true
         }
         else {
-            dateState.value = dateState.value.copy(isError = true, error = "You have to choose the First publication date")
+            dateState.value = dateState.value.copy(isError = true, error = "You have to choose the first publication date")
             false
         }
     }
@@ -113,8 +124,8 @@ class NewBookViewModel(
         val pattern = Pattern.compile(iSBNPattern)
         val matcher = pattern.matcher(isbn)
         val isbnGroup = isbn.split("-")
-        if (isbnGroup.size < 4) {
-            iBSNState.value = iBSNState.value.copy(isError = true, error = "ISBN must be have at least 13 characters")
+        if (isbnGroup.size <= 4) {
+            iBSNState.value = iBSNState.value.copy(isError = true, error = "ISBN must be have at least 13 characters and separators")
             return false
         }
         val prefix = isbnGroup[0]
@@ -172,8 +183,17 @@ class NewBookViewModel(
         )
         viewModelScope.launch {
             db.withTransaction {
-                val dao = db.bookDao()
-                dao.insertAll(book)
+                uiState = try {
+                    val dao = db.bookDao()
+                    dao.insertAll(book)
+                    uiState.copy(
+                        isCreated = true
+                    )
+                } catch (e: Exception) {
+                    uiState.copy(
+                        isCreated = false
+                    )
+                }
             }
         }
         uiState = uiState.copy(

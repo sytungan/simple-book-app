@@ -1,8 +1,6 @@
 package at.ac.fhcampuswien.bookapplication.ui.book
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -22,16 +20,31 @@ import at.ac.fhcampuswien.bookapplication.ui.theme.AppColors
 import at.ac.fhcampuswien.bookapplication.viewmodels.NewBookViewModel
 import at.ac.fhcampuswien.bookapplication.widgets.AppBar
 import androidx.lifecycle.viewmodel.compose.*
+import at.ac.fhcampuswien.bookapplication.BookApp
 import at.ac.fhcampuswien.bookapplication.models.Book
+import at.ac.fhcampuswien.bookapplication.ui.theme.AppTypography
 import at.ac.fhcampuswien.bookapplication.utils.DateTimeUtils
 import at.ac.fhcampuswien.bookapplication.widgets.CustomOutlineTextField
 import at.ac.fhcampuswien.bookapplication.widgets.DateTimeTextField
 
 @Composable
 fun NewBookScreen(navHostController: NavHostController, viewModel: NewBookViewModel = viewModel()) {
+    val uiState = viewModel.uiState
     Scaffold(
         topBar = { AppBar(title = AppScreen.NewBook.title) }
     ) {
+        if (uiState.isCreated) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .height(400.dp)
+            ) {
+                Text(text = "Create a book successfully, try to reload at My Favorite Books", style = AppTypography.h5)
+            }
+            return@Scaffold
+        }
+
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,

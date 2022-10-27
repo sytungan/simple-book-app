@@ -30,6 +30,7 @@ fun BookItem(
     name: String,
     author: String,
     date: Long,
+    iSBN: String,
     onClick: () -> Unit = {},
     onClickRemove: () -> Unit = {},
 ) {
@@ -54,8 +55,9 @@ fun BookItem(
                 Spacer(modifier = Modifier.width(10.dp))
                 Column() {
                     Text(text = name, style = AppTypography.h5)
-                    Text(text = author, style = AppTypography.subtitle2)
+                    Text(text = author, style = AppTypography.body1)
                     Text(text = DateTimeUtils.formatTimeStamp(date), style = AppTypography.subtitle2)
+                    Text(text = iSBN, style = AppTypography.subtitle2)
                 }
             }
 
@@ -71,6 +73,6 @@ fun BookItem(
 @Composable
 fun BookItemPreview() {
     MovieApplicationLectureTheme {
-        BookItem(name = "Book 1", author = "Ronaldo", date = 0)
+        BookItem(name = "Book 1", author = "Ronaldo", iSBN = "", date = 0)
     }
 }

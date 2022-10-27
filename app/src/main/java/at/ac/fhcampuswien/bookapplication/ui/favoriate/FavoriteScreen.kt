@@ -98,6 +98,7 @@ fun ListFavoriteBook(data: List<Book>, onClickRemove: (Book) -> Unit) {
                 name = book.name,
                 author = book.author,
                 date = book.date.toLong(),
+                iSBN = book.iBSN,
                 onClickRemove = {
                     onClickRemove.invoke(book)
                 }
