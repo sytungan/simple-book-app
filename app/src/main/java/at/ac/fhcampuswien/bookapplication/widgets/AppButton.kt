@@ -4,7 +4,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import at.ac.fhcampuswien.bookapplication.ui.theme.AppColors
-import at.ac.fhcampuswien.bookapplication.ui.theme.MovieApplicationLectureTheme
+import at.ac.fhcampuswien.bookapplication.ui.theme.BookApplicationLectureTheme
 
 @Composable
 fun AppButton(
@@ -24,7 +24,7 @@ fun AppButton(
 @Preview(showBackground = true)
 @Composable
 fun AppButtonPreview() {
-    MovieApplicationLectureTheme {
+    BookApplicationLectureTheme {
         AppButton(title = "Some thing")
     }
 }

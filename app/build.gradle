@@ -8,8 +8,8 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "at.ac.fhcampuswien.movieapplication"
-        minSdk 29
+        applicationId "at.ac.fhcampuswien.bookapplication"
+        minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
