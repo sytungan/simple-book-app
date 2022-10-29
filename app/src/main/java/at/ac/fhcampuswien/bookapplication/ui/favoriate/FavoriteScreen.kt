@@ -1,5 +1,7 @@
 package at.ac.fhcampuswien.bookapplication.ui.favoriate
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -11,9 +13,11 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -45,7 +49,11 @@ fun FavoriteScreen(
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier.padding(12.dp)
         ) {
-            val data = uiState.books
+            val data = if (uiState.sortDesc) {
+                uiState.books.sortedByDescending { it.date }
+            } else {
+                uiState.books.sortedBy { it.date }
+            }
             SwipeRefresh(
                 state = SwipeRefreshState(isRefreshing = uiState.loading),
                 swipeEnabled = true,
@@ -62,9 +70,35 @@ fun FavoriteScreen(
                     }
 
                 } else {
-                    ListFavoriteBook(data) {
-                        viewModel.deleteBookFromDB(it)
+                    Column() {
+                        val interactionSource = remember { MutableInteractionSource() }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Row(
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .fillMaxWidth()
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null
+                                ) {
+                                    viewModel.toggleSort()
+                                },
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(text = "Sorted by publication date:", style = AppTypography.h4)
+                            val sortStatus = if (uiState.sortDesc) "Descending" else "Ascending"
+                            Text(text = sortStatus, style = AppTypography.h4, textDecoration = TextDecoration.Underline)
+                        }
+                        Divider(
+                            color = AppColors.GrayCBD5E1,
+                            thickness = 0.5.dp,
+                            modifier = Modifier.padding(horizontal = 12.dp)
+                        )
+                        ListFavoriteBook(data) {
+                            viewModel.deleteBookFromDB(it)
+                        }
                     }
+
                 }
             }
 

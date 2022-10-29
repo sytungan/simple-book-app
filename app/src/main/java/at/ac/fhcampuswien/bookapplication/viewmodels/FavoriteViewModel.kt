@@ -22,6 +22,11 @@ class FavoriteViewModel(
         getAllBookFromDB()
     }
 
+    fun toggleSort() {
+        uiState = uiState.copy(sortDesc = !uiState.sortDesc)
+        uiState = uiState.copy(books = uiState.books)
+    }
+
     fun getAllBookFromDB() {
         // Set state to loading
         uiState = uiState.copy(

@@ -54,7 +54,7 @@ fun BookItem(
                 Icon(Icons.Sharp.MailOutline, contentDescription = "Localized description")
                 Spacer(modifier = Modifier.width(10.dp))
                 Column() {
-                    Text(text = name, style = AppTypography.h5)
+                    Text(text = name, style = AppTypography.h4.copy(fontWeight = FontWeight.Bold))
                     Text(text = author, style = AppTypography.body1)
                     Text(text = DateTimeUtils.formatTimeStamp(date), style = AppTypography.subtitle2)
                     Text(text = iSBN, style = AppTypography.subtitle2)

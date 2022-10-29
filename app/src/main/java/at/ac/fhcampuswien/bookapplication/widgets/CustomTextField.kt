@@ -137,7 +137,8 @@ private fun showDatePicker(context: Context, onConfirm: (Date) -> Unit, currentD
     val dialog = DatePickerDialog(
         context,
         { _, year, month, day ->
-            val localDate = LocalDate.of(year, month, day)
+            println("$year, $month, $day");
+            val localDate = LocalDate.of(year, month + 1, day)
             val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
             onConfirm.invoke(date)
         },
