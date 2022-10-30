@@ -18,6 +18,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        ndk {
+            // Filter for architectures supported by Flutter.
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+        }
     }
 
     buildTypes {
@@ -77,4 +81,9 @@ dependencies {
 
     // Accompanist
     implementation "com.google.accompanist:accompanist-swiperefresh:0.23.1"
+
+    // Flutter module
+    debugImplementation 'dev.flutter.flutter_module:flutter_debug:1.0'
+//    profileImplementation 'dev.flutter.flutter_module:flutter_profile:1.0'
+    releaseImplementation 'dev.flutter.flutter_module:flutter_release:1.0'
 }

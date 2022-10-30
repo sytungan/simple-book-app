@@ -1,15 +1,19 @@
 package at.ac.fhcampuswien.bookapplication
 
+import android.app.Activity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import at.ac.fhcampuswien.bookapplication.navigation.AppNavHost
+import at.ac.fhcampuswien.bookapplication.utils.FlutterUtils
 import at.ac.fhcampuswien.bookapplication.widgets.AppBottomNavigationBar
 
 @Composable
@@ -18,9 +22,15 @@ fun BookApp() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
+        val context = LocalContext.current
         val navController = rememberNavController()
         var bottomIndex by remember { mutableStateOf(0) }
         Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(onClick = {
+                    FlutterUtils.startFlutterModule(context)
+                }) {}
+            },
             bottomBar = {
                 AppBottomNavigationBar(
                     currentIndex = bottomIndex,
