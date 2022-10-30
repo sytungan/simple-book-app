@@ -4,7 +4,11 @@ A new flutter module project.
 
 ## Getting Started
 
-ome steps to run:
+Some steps to run:
+- Go to flutter_module
+```shell
+cd fluttte_module
+```
 
 - Get some dependencies package:
 ```shell
